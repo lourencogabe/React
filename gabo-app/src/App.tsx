@@ -13,7 +13,21 @@ function App() {
 
   }
 
-  const [marks, setMarks] = useState({})
+  const [marks, setMarks] = useState <{[key: string]: Player}>({});
+
+  const play = (index: number) => {
+
+    setMarks(prev => ({ ...prev, [index]: turn}))
+    setTurn(prev => prev === "O" ? "X" : "O")
+  }
+
+  const getCellPlayer = (index: number) => {
+    if(!marks[index]){
+      return;
+    }
+
+    return marks[index];
+  }
   
   const getSquares = () =>{
     return new Array(9).fill(true);
@@ -27,7 +41,7 @@ function App() {
       <p>É a vez de X</p>
       <div className="board">
       {getSquares().map((_, i) =>(
-        <div className="cell">X</div>
+        <div className={`cell ${getCellPlayer(i)}`} onClick={() => play(i)}>{marks[i]}</div>
       ))}
       </div>
     </div>
